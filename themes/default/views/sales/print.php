@@ -154,8 +154,17 @@
 						<tr>
 							<th><?= lang("no"); ?></th>
 							<th><?= lang("description"); ?></th>
-							<th><?= lang("quantity"); ?></th>
-							<?php
+                            <?php
+                            $qtyC=0;
+                            foreach ($rows as $rowQC){
+                                $qtyC+=$rowQC->quantity;
+                            }
+                            if($qtyC>0) {
+                                ?>
+                                <th><?= lang("quantity"); ?></th>
+
+                                <?php
+                            }
 							if ($Settings->product_serial) {
 								echo '<th style="text-align:center; vertical-align:middle;">' . lang("serial_no") . '</th>';
 							}
@@ -182,10 +191,14 @@
                                 <?= $row->details ? '<br>' . $row->details : ''; ?>
 								<?= $row->product_noted ? '<br>' . $row->product_noted : ''; ?>
                             </td>
-                            <td style="width: 80px; text-align:center; vertical-align:middle;">
-								<?= $this->erp->formatQuantity($row->quantity); ?>
-							</td>
                             <?php
+                            if($qtyC>0) {
+                                ?>
+                                <td style="width: 80px; text-align:center; vertical-align:middle;">
+                                    <?= $this->erp->formatQuantity($row->quantity); ?>
+                                </td>
+                                <?php
+                            }
                             if ($Settings->product_serial) {
                                 echo '<td>' . $row->serial_no . '</td>';
                             }
@@ -226,6 +239,9 @@
                         $tcol = $col - 1;
                     } else {
                         $tcol = $col;
+                    }
+                    if($qtyC==0){
+                        $col-=1;
                     }
                     ?>
                     <?php if ($inv->grand_total != $inv->total) { ?>
