@@ -110,27 +110,30 @@
 								$product_name_setting = ($row->promotion == 1 ? '<i class="fa fa-check-circle"></i> ' : '') . $row->product_name . " (" . $row->product_code . ")" . ($row->variant ? ' (' . $row->variant . ')' : '');
 							}
 						}
-							?>
-						
-							<tr>
-								<td style="text-align:center; width:5%; vertical-align:middle;border-top:none !important;border-bottom:none !important;"><?= $r; ?></td>
-								<td style="border-top:none !important;border-bottom:none !important; width:15%" >
-									<?= $row->product_code; ?>
-									
-								</td>
-								<td style="border-top:none !important;border-bottom:none !important;" >
-									<?//= $product_name_setting ?>
-									<?= $row->product_name; ?>
-									<?= $row->product_noted ? '<br>' . $row->product_noted : ''; ?>
-								</td>
-								<td style="width: 8%; text-align:center; vertical-align:middle;border-top:none !important;border-bottom:none !important;"><?= $this->erp->formatQuantity($row->quantity) ?></td>
-								<td style="width: 8%; text-align:center; vertical-align:middle;border-top:none !important;border-bottom:none !important;"><?= $product_unit ?></td>
-								<td style="text-align:center; width:8% !important;vertical-align:middle;border-top:none !important;border-bottom:none !important;"><?= $row->subtotal!=0?$this->erp->formatMoney($row->unit_price):$free; ?></td>
-								<td style="vertical-align:middle; text-align:center; width:10% !important;border-top:none !important;border-bottom:none !important;"><?= $row->subtotal!=0?$this->erp->formatMoney($row->subtotal):$free;
-									$total += $row->subtotal;
-									?></td>
-							</tr>
-							<?php
+						if($row->quantity>0) {
+                            ?>
+
+                            <tr>
+                                <td style="text-align:center; width:5%; vertical-align:middle;border-top:none !important;border-bottom:none !important;"><?= $r; ?></td>
+                                <td style="border-top:none !important;border-bottom:none !important; width:15%">
+                                    <?= $row->product_code; ?>
+
+                                </td>
+                                <td style="border-top:none !important;border-bottom:none !important;">
+                                    <?//= $product_name_setting
+                                    ?>
+                                    <?= $row->product_name; ?>
+                                    <?= $row->product_noted ? '<br>' . $row->product_noted : ''; ?>
+                                </td>
+                                <td style="width: 8%; text-align:center; vertical-align:middle;border-top:none !important;border-bottom:none !important;"><?= $this->erp->formatQuantity($row->quantity) ?></td>
+                                <td style="width: 8%; text-align:center; vertical-align:middle;border-top:none !important;border-bottom:none !important;"><?= $product_unit ?></td>
+                                <td style="text-align:center; width:8% !important;vertical-align:middle;border-top:none !important;border-bottom:none !important;"><?= $row->subtotal != 0 ? $this->erp->formatMoney($row->unit_price) : $free; ?></td>
+                                <td style="vertical-align:middle; text-align:center; width:10% !important;border-top:none !important;border-bottom:none !important;"><?= $row->subtotal != 0 ? $this->erp->formatMoney($row->subtotal) : $free;
+                                    $total += $row->subtotal;
+                                    ?></td>
+                            </tr>
+                            <?php
+                        }
 							$r++;
 							$i++;
 							$discount += $row->item_discount;
