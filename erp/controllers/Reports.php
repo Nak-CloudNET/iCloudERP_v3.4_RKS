@@ -24672,8 +24672,7 @@ class Reports extends MY_Controller
 				$warehousew = $warehouse;
 			}
             //Get the amount of transuction In of Inventory
-            $num = $this->reports_model->getTransuctionsPurIN($product,$warehousew,$from_date,$to_date);
-			 
+            $num = $this->reports_model->getTransuctionsPurIN($product,$warehouse,$from_date,$to_date);
             $k = 0;
             if(is_array($num)){
                 foreach($num as $r){
@@ -24684,7 +24683,7 @@ class Reports extends MY_Controller
                 }
             }
             //Get the amount of transuction Out of Inventory
-            $num2 = $this->reports_model->getTransuctionsPurOUT($product,$warehousew,$from_date,$to_date);
+            $num2 = $this->reports_model->getTransuctionsPurOUT($product,$warehouse,$from_date,$to_date);
             $k2 = 0;
             if(is_array($num2)){
                 foreach($num2 as $r2){
@@ -24693,42 +24692,53 @@ class Reports extends MY_Controller
                     }
                 }
             }
-			
-            $alphabet0 = array('B','C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+
+            $alphabet0 = array('C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
             $alphabet = array('A','B','C','D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
             $alphabet1 = array('A1','B1','C1','D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1', 'R1', 'S1', 'T1', 'U1', 'V1', 'W1', 'X1', 'Y1', 'Z1');
             $alphabet2 = array('C2', 'D2', 'E2', 'F2', 'G2', 'H2', 'I2', 'J2', 'K2', 'L2', 'M2', 'N2', 'O2', 'P2', 'Q2', 'R2', 'S2', 'T2', 'U2', 'V2', 'W2', 'X2', 'Y2', 'Z2');
             $alphabet3 = array('A2','B2','C2', 'D2', 'E2', 'F2', 'G2', 'H2', 'I2', 'J2', 'K2', 'L2', 'M2', 'N2', 'O2', 'P2', 'Q2', 'R2', 'S2', 'T2', 'U2', 'V2', 'W2', 'X2', 'Y2', 'Z2');
-            
-			//**Header
+            //**Header
             $this->load->library('excel');
             $this->excel->setActiveSheetIndex(0);
             $this->excel->getActiveSheet()->setTitle('inventory_inout');
-            $this->excel->getActiveSheet()->SetCellValue('A1', 'Location / Category / Item');
-            $this->excel->getActiveSheet()->SetCellValue('B1', lang("begin"));
+            if($num || $num2){
+                $this->excel->getActiveSheet()->SetCellValue('A1', 'Location >> Category >> Item');
+                $this->excel->getActiveSheet()->SetCellValue('B1', lang("begin"));
+            }else{
+                $this->excel->getActiveSheet()->SetCellValue('A1', 'No data found');
+            }
+
             //**In part
             if($k){
                 $this->excel->getActiveSheet()->SetCellValue('C1', lang("in"));
-                // $this->excel->getActiveSheet()->mergeCells('C1'.':'.$alphabet[$K]);
             }
-			
             $ttype1 = 0;
-            //Get In tanstion type    
-            foreach($num as $tr){
-                if($tr->transaction_type){
-                    $this->excel->getActiveSheet()->SetCellValue($alphabet2[$ttype1], strtolower($tr->transaction_type));
-                }
-                $ttype1++;   
-            }
-            $tin = $ttype1 + 1;
-            $out = $tin+1;
-            //set style in transaction_type 1
-            $this->excel->getActiveSheet()->mergeCells('C1'.':'.$alphabet2[$ttype1]);
-            $this->excel->getActiveSheet()->getStyle('C2'. ':'.$alphabet2[$ttype1])->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+            //Get In tanstion type
+            if ($num) {
+                foreach ($num as $tr) {
+                    if ($tr->transaction_type) {
+                        $this->excel->getActiveSheet()->SetCellValue($alphabet2[$ttype1], strtolower($tr->transaction_type));
+                    }
+                    $ttype1++;
 
-            //Total in
-            $this->excel->getActiveSheet()->setCellValue($alphabet2[$tin],lang("total_in"));
-            $this->excel->getActiveSheet()->mergeCells($alphabet1[$tin].':'.$alphabet3[$tin]);
+                }
+            }
+
+            //$this->erp->print_arrays($tr->tran_type);
+            $tin = $ttype1 + 2;
+            $out = $tin+1;
+            if(is_array($num2) && $num){
+                //set style in transaction_type 1
+                $this->excel->getActiveSheet()->mergeCells('C1'.':'.$alphabet1[$ttype1+1]);
+            }
+            if($num || $num2){
+                //Total in
+                $this->excel->getActiveSheet()->setCellValue($alphabet1[$tin],lang("total_in"));
+                $this->excel->getActiveSheet()->mergeCells($alphabet1[$tin].':'.$alphabet3[$tin]);
+            }
+
+
             //**Out part
             if($k2){
                 $this->excel->getActiveSheet()->SetCellValue($alphabet1[$out], lang("out"));
@@ -24738,32 +24748,59 @@ class Reports extends MY_Controller
                 //Get Out transaction type
                 foreach($num2 as $tr2){
                     if($tr2->transaction_type){
-                        $this->excel->getActiveSheet()->SetCellValue($alphabet2[$tin], strtolower($tr2->transaction_type));
+                        $this->excel->getActiveSheet()->SetCellValue($alphabet2[$tin-1], strtolower($tr2->transaction_type));
                     }
                     $tin++;
                     $totalout = $tin+1;
                     $b = $totalout+1;
                 }
             }
-            //set style transaction type 2
-            $this->excel->getActiveSheet()->mergeCells($alphabet1[$out].':'.$alphabet1[$tin]);
-            $this->excel->getActiveSheet()->getStyle('C2'. ':'.$alphabet3[$totalout])->getBorders()->getTop()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-            // //Total out
-            $this->excel->getActiveSheet()->setCellValue($alphabet1[$totalout],lang("total_out"));
-            $this->excel->getActiveSheet()->mergeCells($alphabet1[$totalout].':'.$alphabet3[$totalout]);
+            if(!$b){
+                $b=4;
+            }
+            if(!$tin){
+                $tin=3;
+            }
+            if(!$totalout){
+                $totalout=2;
+            }
+            if(!$out){
+                $out=1;
+            }
 
-            //Set center for all column in header excel
-            $this->excel->getActiveSheet()->getStyle('A1'.':'.$alphabet1[$b])->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $this->excel->getActiveSheet()->getStyle('A2'.':'.$alphabet3[$b])->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            //Set style bold for all column in hearder excel
-            $this->excel->getActiveSheet()->getStyle('A1'. $row.':'.$alphabet1[$b].$row)->getFont()->setBold(true);
-            $this->excel->getActiveSheet()->getStyle('A2'. $row.':'.$alphabet3[$b].$row)->getFont()->setBold(true);
+            $row      =null;
+            if(is_array($num2)){
+                //set style transaction type 2
+                $this->excel->getActiveSheet()->mergeCells($alphabet1[$out].':'.$alphabet1[$tin]);
+
+                $border_style = array('borders' => array('top' => array('style' =>
+                    PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '357EBD'))));
+
+                $this->excel->getActiveSheet()->getStyle('C2' . ':' . $alphabet3[$totalout])->applyFromArray($border_style);
+
+
+                // //Total out
+                $this->excel->getActiveSheet()->setCellValue($alphabet1[$totalout],lang("total_out"));
+                $this->excel->getActiveSheet()->mergeCells($alphabet1[$totalout].':'.$alphabet3[$totalout]);
+
+                //Set center for all column in header excel
+                $this->excel->getActiveSheet()->getStyle('A1'.':'.$alphabet1[$b])->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('A2'.':'.$alphabet3[$b])->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                //Set style bold for all column in hearder excel
+                $this->excel->getActiveSheet()->getStyle('A1'. $row.':'.$alphabet1[$b].$row)->getFont()->setBold(true);
+                $this->excel->getActiveSheet()->getStyle('A2'. $row.':'.$alphabet3[$b].$row)->getFont()->setBold(true);
+
+            }
+
             //merge cell for A1->A2 and B1-B2 and set style center
             $this->excel->getActiveSheet()->mergeCells('A1'.':A2');
             $this->excel->getActiveSheet()->mergeCells('B1'.':B2');
-            //Balance part
-            $this->excel->getActiveSheet()->setCellValue($alphabet1[$b],lang("balance"));
-            $this->excel->getActiveSheet()->mergeCells($alphabet1[$b].':'.$alphabet3[$b]);
+            if($num || $num2){
+                //Balance part
+                $this->excel->getActiveSheet()->setCellValue($alphabet1[$b],lang("balance"));
+                $this->excel->getActiveSheet()->mergeCells($alphabet1[$b].':'.$alphabet3[$b]);
+                //End header**
+            }
             //End header**
 
             $row = 3;
@@ -24843,9 +24880,10 @@ class Reports extends MY_Controller
                                 
                             }
                             //Show total in
-                            $this->excel->getActiveSheet()->setCellValue($alphabet[$tin].$row,$this->erp->formatDecimal($total_in?$total_in:''));
-                            $this->excel->getActiveSheet()->getStyle($alphabet[$tin].$row)->getFont()->setBold(true);
-                            $this->excel->getActiveSheet()->getStyle($alphabet[$tin].$row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+                            $new=$tin-$k2;
+                            $this->excel->getActiveSheet()->setCellValue($alphabet[$new].$row,$this->erp->formatDecimal($total_in?$total_in:''));
+                            $this->excel->getActiveSheet()->getStyle($alphabet[$new].$row)->getFont()->setBold(true);
+                            $this->excel->getActiveSheet()->getStyle($alphabet[$new].$row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
                             $j = $i+1;
                             if(is_array($num2)){
                                 foreach($num2 as $tr2){
@@ -24887,19 +24925,20 @@ class Reports extends MY_Controller
                         //Show total each category
                         $this->excel->getActiveSheet()->setCellValue('A'.$row,"Total>>".$rc->name);
                         $this->excel->getActiveSheet()->getStyle('A'. $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
-                        $this->excel->getActiveSheet()->setCellValue('B'.$row, $this->erp->formatDecimal($begin_balance)." ");
+                        $this->excel->getActiveSheet()->setCellValue('B'.$row, $begin_balance?$this->erp->formatDecimal($begin_balance):''." ");
                         $i = 0;
                         if(is_array($num)){
                             foreach($num as $tr){
                                 if($tr->transaction_type){
                                     // $amount_qty = $this->reports_model->getAmountQtyINALL($product2,$rw->id,$tr->transaction_type,$rc->id,$from_date,$to_date);
-                                    $this->excel->getActiveSheet()->setCellValue($alphabet0[$i].$row,$this->erp->formatDecimal($total_in_cate[$tr->transaction_type])." ");
+                                    $this->excel->getActiveSheet()->setCellValue($alphabet0[$i].$row,$total_in_cate[$tr->transaction_type]." ");
                                     $total_in_cate_w[$tr->transaction_type] += $total_in_cate[$tr->transaction_type];
+                                    $this->excel->getActiveSheet()->getStyle($alphabet0[$i].$row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
                                 }
                                 $i++;
                             }
                         }
-                        $this->excel->getActiveSheet()->setCellValue($alphabet[$tin].$row,$this->erp->formatDecimal($total_inn));
+                        $this->excel->getActiveSheet()->setCellValue($alphabet[$new].$row,$this->erp->formatDecimal($total_inn));
                         $this->excel->getActiveSheet()->getStyle('A'. $row.':'.$alphabet0[$b].$row)->getFont()->setBold(true);
 
                         $j = $i+1;
@@ -24941,7 +24980,7 @@ class Reports extends MY_Controller
                     }
                     //Show grand Total of total in
 
-                    $this->excel->getActiveSheet()->setCellValue($alphabet[$tin].$row,$this->erp->formatDecimal($total2_inn));
+                    $this->excel->getActiveSheet()->setCellValue($alphabet[$new].$row,$this->erp->formatDecimal($total2_inn));
                     $j = $i+1;
                     if(is_array($num2)){
                         foreach($num2 as $tr2){
