@@ -46,7 +46,7 @@
                 <div class="row bold" style="font-size:12px;">
                     <div class="col-xs-5">
                     <p class="bold">
-                        <?= lang("ref"); ?>: <?= $inv->reference_no; ?><br>
+                        <?= lang("ref"); ?>:<?= $inv->reference_no; ?><br>
                         <?= lang("date"); ?>: <?= $this->erp->hrld($inv->date); ?><br>
                         
                         <?= lang("sale_status"); ?>:
@@ -416,7 +416,7 @@
                         </div>
 						-->
 						<div class="btn-group">
-                            <a href="<?= site_url('sales/print_/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary" title="<?= lang('print') ?>">
+                            <a href="<?= site_url('sales/print_rks/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary" title="<?= lang('print') ?>">
                                 <i class="fa fa-print"></i>
                                 <span class="hidden-sm hidden-xs"><?= lang('print') ?></span>
                             </a>
@@ -466,13 +466,13 @@
                                 </a>
                             </div>
                         <?php } ?>
-						<div class="btn-group">
-                            <a href="<?= site_url('sales/invoice_deveryStatement/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary" title="<?= lang('invoice_delivery_statement') ?>">
+						<div class="btn-group"  style="display: none;">
+                            <a href="<?= site_url('sales/invoice_deveryStatement/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary"  title="<?= lang('invoice_delivery_statement') ?>">
                                 <i class="fa fa-car"></i>
                                 <span class="hidden-sm hidden-xs"><?= lang('delivery_statement') ?></span>
                             </a>
                         </div>
-						<div class="btn-group">
+						<div class="btn-group" style="display: none;">
                             <a href="<?= site_url('sales/sales_invoice/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary" title="<?= lang('sales_invoice') ?>">
                                 <i class="fa fa-download"></i>
                                 <span class="hidden-sm hidden-xs"><?= lang('sales_invoice') ?></span>
@@ -502,38 +502,38 @@
                 </div>
 				  <div class="buttons" >
                     <div class="btn-group btn-group-justified">
-					<div class="btn-group">
-                            <a href="<?= site_url('sales/invoice_devery/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary" title="<?= lang('invoice_delivery') ?>">
+					<div class="btn-group"  style="display: none;">
+                            <a href="<?= site_url('sales/invoice_devery/' . $inv->id) ?>"  target="_blank" class="tip btn btn-primary" title="<?= lang('invoice_delivery') ?>">
                                 <i class="fa fa-download"></i>
                                 <span class="hidden-sm hidden-xs"><?= lang('invoice_delivery') ?></span>
                             </a>
                         </div>
-				        <div class="btn-group  ">
+				        <div class="btn-group  " style="display: none;">
                             <a href="<?= site_url('sales/print_invoice/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary" title="<?= lang('print_invoice') ?>">
                                 <i class="fa fa-download"></i>
                                 <span class="hidden-sm hidden-xs"><?= lang('print_invoice') ?></span>
                             </a>
                         </div>
-						<div class="btn-group  ">
+						<div class="btn-group  "  style="display: none;">
                             <a href="<?= site_url('sales/invoice_landscap_a5/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary" title="<?= lang('invoice_yon_wang') ?>">
                                 <i class="fa fa-download"></i>
                                 <span class="hidden-sm hidden-xs"><?= lang('invoice_yon_wang') ?></span>
                             </a>
                         </div>
 						
-						<div class="btn-group">
+						<div class="btn-group"  style="display: none;">
                             <a href="<?= site_url('sales/tax_invoice/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary" title="<?= lang('tax_invoice') ?>">
                                 <i class="fa fa-download"></i>
                                 <span class="hidden-sm hidden-xs"><?= lang('tax_invoice') ?></span>
                             </a>
                         </div>
-                        <div class="btn-group">
+                        <div class="btn-group"  style="display: none;">
                             <a href="<?= site_url('sales/tax_invoice2/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary" title="<?= lang('tax_invoice_2') ?>">
                                 <i class="fa fa-download"></i>
                                 <span class="hidden-sm hidden-xs"><?= lang('tax_invoice_2') ?></span>
                             </a>
                         </div>
-						<div class="btn-group">
+						<div class="btn-group"  style="display: none;">
                             <a href="<?= site_url('sales/tax_invoice3/' . $inv->id) ?>" target="_blank" class="tip btn btn-primary" title="<?= lang('tax_invoice_3') ?>">
                                 <i class="fa fa-download"></i>
                                 <span class="hidden-sm hidden-xs"><?= lang('tax_invoice_ck') ?></span>

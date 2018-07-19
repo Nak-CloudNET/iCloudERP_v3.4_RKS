@@ -65,7 +65,7 @@
         'hostname' => 'localhost',
         'username' => 'root',
         'password' => '',
-        'database' => 'rks',
+        'database' => 'rsk',
         'dbdriver' => 'mysqli',
         'dbprefix' => 'erp_',
         'pconnect' => FALSE,

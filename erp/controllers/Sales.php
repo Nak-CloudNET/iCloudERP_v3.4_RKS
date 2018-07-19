@@ -3812,7 +3812,7 @@ class Sales extends MY_Controller
             } else {
                 $payment = array();
             }
-            
+
 			if ($_FILES['document']['size'] > 0) {
                 $this->load->library('upload');
                 $config['upload_path'] = $this->digital_upload_path;

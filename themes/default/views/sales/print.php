@@ -340,23 +340,23 @@
 
             <a target="_blank" class="btn btn-primary" href="<?= site_url('sales/print_invoice/' . $sid); ?>"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("print_invoice"); ?></a>
 
-            <a  target="_blank" class="btn btn-primary" href="<?= site_url('sales/tax_invoice/'. $sid); ?>"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("tax_invoice"); ?></a>
+            <a style="display: none;" target="_blank" class="btn btn-primary" href="<?= site_url('sales/tax_invoice/'. $sid); ?>"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("tax_invoice"); ?></a>
 
-            <a  target="_blank" class="btn btn-primary" href="<?= site_url('sales/tax_invoice2/'. $sid); ?>"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("tax_invoice_2"); ?></a>
+            <a style="display: none;" target="_blank" class="btn btn-primary" href="<?= site_url('sales/tax_invoice2/'. $sid); ?>"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("tax_invoice_2"); ?></a>
 
-			<a  target="_blank" class="btn btn-primary" href="<?= site_url('sales/tax_invoice3/'. $sid); ?>"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("tax_invoice_ck"); ?></a>
+			<a  style="display: none;" target="_blank" class="btn btn-primary" href="<?= site_url('sales/tax_invoice3/'. $sid); ?>"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("tax_invoice_ck"); ?></a>
 		
             <a  target="_blank" class="btn btn-primary" href="<?= site_url('sales/print_rks/' . $sid); ?>">
                 <i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("rks_invoice"); ?>
             </a>
-			<a  target="_blank" class="btn btn-primary" href="<?= site_url('sales/invoice_landscap_a5/' . $sid); ?>">
+			<a  style="display: none;" target="_blank" class="btn btn-primary" href="<?= site_url('sales/invoice_landscap_a5/' . $sid); ?>">
                 <i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("yon_wang_invoice"); ?>
             </a>
 			</a>
-			<a  target="_blank" class="btn btn-primary" href="<?= site_url('sales/invoice_a5/' . $sid); ?>">
+			<a  target="_blank" class="btn btn-primary" style="display: none;" href="<?= site_url('sales/invoice_a5/' . $sid); ?>">
                 <i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("Tea_Try_II"); ?>
             </a>
-			<a  target="_blank" class="btn btn-primary" href="<?= site_url('sales/sales_invoice/' . $sid); ?>">
+			<a   target="_blank" class="btn btn-primary" href="<?= site_url('sales/sales_invoice/' . $sid); ?>">
                 <i class="fa fa-print" aria-hidden="true"></i>&nbsp;<?= lang("sales_invoice"); ?>
             </a>
 			

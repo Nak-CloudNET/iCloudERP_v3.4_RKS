@@ -457,6 +457,7 @@
 </script>
 
 <div class="box">
+
     <div class="box-header">
         <h2 class="blue"><i class="fa-fw fa fa-plus"></i><?= lang('add_sale'); ?></h2>
     </div>
@@ -465,17 +466,23 @@
             <div class="col-lg-12">
 
                 <p class="introtext"><?php echo lang('enter_info'); ?></p>
+
                 <?php
+
                 $attrib = array('data-toggle' => 'validator', 'role' => 'form','id' => 'form');
-                
+
                 if (isset($quote_id)) {
                    echo form_open_multipart("sales/add/0/0/".$quote_id, $attrib);
+
                 }else if(isset($sale_order_id)) {
 					echo form_open_multipart("sales/add/".$sale_order_id, $attrib);
+
 				}else{
 					echo form_open_multipart("sales/add", $attrib);
+
 				}
                 ?>
+
                 <div class="row">
                     <div class="col-lg-12">
                         <?php if ($Owner || $Admin || $Settings->allow_change_date == 1) { ?>
@@ -650,7 +657,6 @@
 											?>
 										</div>
                                     </div>
-									
 									<?php if($setting->bill_to == 1) { ?>
 									<div class="col-md-4">
 										<div class="form-group">
@@ -1110,6 +1116,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="fprom-group">
+
 								<?php echo form_submit('add_sale', lang("submit"), 'id="add_sale" class="btn btn-primary" style="padding: 6px 15px; margin:15px 0; display:none;"'); ?>
                                 <button type="button" class="btn btn-primary" id="before_sub"><?= lang('submit') ?></button>
                                 <button type="button" class="btn btn-danger" id="reset"><?= lang('reset') ?></button>
