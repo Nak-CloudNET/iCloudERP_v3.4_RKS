@@ -3812,7 +3812,7 @@ class Sales extends MY_Controller
             } else {
                 $payment = array();
             }
-            
+
 			if ($_FILES['document']['size'] > 0) {
                 $this->load->library('upload');
                 $config['upload_path'] = $this->digital_upload_path;
@@ -3952,7 +3952,7 @@ class Sales extends MY_Controller
 				//redirect("sales/sbps_invoice/".$s->row()->id);
 				//redirect("sales/invoice_teatry/".$s->row()->id);
 				//redirect("sales/sales_invoice/".$s->row()->id);
-				redirect("sales/print_/".$s->row()->id);
+				redirect("sales/print_rks/".$s->row()->id);
 			}
 			else if($invoice_view == 1){
 				redirect("sales/invoice/".$s->row()->id);
@@ -3961,12 +3961,12 @@ class Sales extends MY_Controller
 				redirect("sales/tax_invoice/".$s->row()->id);
 			}
 			else if($invoice_view == 3){
-				redirect("sales/print_/".$s->row()->id);
+				redirect("sales/print_rks/".$s->row()->id);
 			}
 			else if($invoice_view == 4){
 				redirect("sales/invoice_landscap_a5/".$s->row()->id);
 			}
-            //redirect("sales/print_/".$s->row()->id);
+            //redirect("sales/print_rks/".$s->row()->id);
 			
         } else {
 			

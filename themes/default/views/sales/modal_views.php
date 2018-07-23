@@ -60,7 +60,7 @@
 
                     <thead> 
 						<tr id ="hd" height="30px" style="background-color:#428BCA;color:white">
-							<th class="text-center"><?= lang("no"); ?></th>  
+							<th class="text-center"><?= lang("no"); ?></th>
 							<th class="text-center"><?= lang("reference_no"); ?></th>
 							<th class="text-center"><?= lang("product_code"); ?></th>
 							<th class="text-center"><?= lang("product_name"); ?></th>
