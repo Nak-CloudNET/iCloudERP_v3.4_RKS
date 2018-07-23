@@ -24868,7 +24868,7 @@ class Reports extends MY_Controller
                                         
                                         if($allqty->bqty){
                                             //show the all quantity of each transaction In
-                                            $this->excel->getActiveSheet()->setCellValue($alphabet0[$i].$row,$this->erp->formatDecimal($allqty->bqty));                                                      
+                                            $this->excel->getActiveSheet()->setCellValue($alphabet0[$i].$row, $this->erp->formatDecimal($allqty->bqty) .' '. strip_tags($this->erp->convert_unit_2_string($rp->product_id, $allqty->bqty)));
                                         }
                                             
                                         $total_in +=$allqty->bqty;
@@ -24894,7 +24894,7 @@ class Reports extends MY_Controller
                                         if($allqty2->bqty){
                             
                                             //show the all quantity of each transaction Out
-                                            $this->excel->getActiveSheet()->setCellValue($alphabet0[$j].$row,$this->erp->formatDecimal($allqty2->bqty));
+                                            $this->excel->getActiveSheet()->setCellValue($alphabet0[$j].$row,$this->erp->formatDecimal($allqty2->bqty) .' '. strip_tags($this->erp->convert_unit_2_string($rp->product_id, $allqty2->bqty)));
                                         }
 
                                         $total_out+=$allqty2->bqty;
@@ -24911,7 +24911,8 @@ class Reports extends MY_Controller
                             $this->excel->getActiveSheet()->getStyle($alphabet[$totalout].$row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
                             $this->excel->getActiveSheet()->getStyle($alphabet[$totalout].$row)->getFont()->setBold(true);
                             //Show Balance
-                            $this->excel->getActiveSheet()->setCellValue($alphabet[$b].$row,$this->erp->formatDecimal($total_in-$total_out));
+                            $am = ($total_in-$total_out);
+                            $this->excel->getActiveSheet()->setCellValue($alphabet[$b].$row,$this->erp->formatDecimal($am) .' '. strip_tags($this->erp->convert_unit_2_string($rp->product_id,$am)));
                             $this->excel->getActiveSheet()->getStyle($alphabet[$b].$row)->getFont()->setBold(true);
                             //End balance
                             
